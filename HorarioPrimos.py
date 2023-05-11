@@ -36,16 +36,13 @@ J = [LpVariable(name=f"J{i}", lowBound=0, cat="Integer") for i in range(1, 17)]
 for i in range(1,17):
     for x in dias:
         for z in range(1,8):
-            globals()["P"+str(i)+"_"+str(x)+str(z)] = LpVariable(name="P"+str(i)+"_"+str(x)+str(z), lowBound=0, cat="Binary")
-            print("P"+str(i)+"_"+str(x)+str(z))
+            globals()["P"+str(i)+"_"+str(x)+str(z)] = LpVariable(name="P"+str(i)+"_"+str(x)+str(z), cat="Binary")
 
 
 ##condiciones
 
 ##funcion obj
-model += L[0] + L[1] + L[2] + L[3] + L[4] + L[5] + L[6]  + M[0] +  M[1] + M[2] + M[3] + M[4] + M[5] + M[6] + X[0] + X[1] + X[2] + X[3] + X[4] + X[5] + X[6] + J[0] + J[1] + J[2] + J[3] + J[4] + J[5] + J[6] + V[0] + V[1] + V[2] + V[3] + V[4] + V[5] + V[6] + V[0] + J[0] + J[1] + J[2] + J[3] + J[4] + J[5] + J[6] + J[7] + J[8] + J[9] + J[10] + J[11] + J[12] + J[13] + J[14] + J[15]
-
-
+model += L[0] + L[1] + L[2] + L[3] + L[4] + L[5] + L[6]  + M[0] +  M[1] + M[2] + M[3] + M[4] + M[5] + M[6] + X[0] + X[1] + X[2] + X[3] + X[4] + X[5] + X[6] + J[0] + J[1] + J[2] + J[3] + J[4] + J[5] + J[6] + V[0] + V[1] + V[2] + V[3] + V[4] + V[5] + V[6] 
 ## valor del dia
 model += (L[0] == P1L1*P1_L1 + P2L1*P2_L1 + P3L1*P3_L1 + P4L1*P4_L1 + P5L1*P5_L1 + P6L1*P6_L1 + P7L1*P7_L1 + P8L1*P8_L1 + P9L1*P9_L1 + P10L1*P10_L1 + P11L1*P11_L1 +  P12L1*P2_L1 + P13L1*P13_L1 + P14L1*P14_L1 + P15L1*P15_L1 + P16L1*P16_L1 , "SL1")
 model += (L[1] == P1L2*P1_L2 + P2L2*P2_L2 + P3L2*P3_L2 + P4L2*P4_L2 + P5L2*P5_L2 + P6L2*P6_L2 + P7L2*P7_L2 + P8L2*P8_L2 + P9L2*P9_L2 + P10L2*P10_L2 + P11L2*P11_L2 +  P12L2*P2_L2 + P13L2*P13_L2 + P14L2*P14_L2 + P15L2*P15_L2 + P16L2*P16_L2 , "SL2")
@@ -144,7 +141,7 @@ model += ( P[14] == P14_L1+ P14_L2+ P14_L3+ P14_L4+ P14_L5+ P14_L6+ P14_L7+ P14_
 model += ( P[15] == P15_L1+ P15_L2+ P15_L3+ P15_L4+ P15_L5+ P15_L6+ P15_L7+ P15_M1+ P15_M2+ P15_M3+ P15_M4+ P15_M5+ P15_M6+ P15_M7+ P15_X1+ P15_X2+ P15_X3+ P15_X4+ P15_X5+ P15_X6+ P15_X7+ P15_J1+ P15_J2+ P15_J3+ P15_J4+ P15_J5+ P15_J6+ P15_J7+ P15_V1+ P15_V2+ P15_V3+ P15_V4+ P15_V5+ P15_V6+ P15_V7, "RP15")
 model += ( P[16] == P16_L1+ P16_L2+ P16_L3+ P16_L4+ P16_L5+ P16_L6+ P16_L7+ P16_M1+ P16_M2+ P16_M3+ P16_M4+ P16_M5+ P16_M6+ P16_M7+ P16_X1+ P16_X2+ P16_X3+ P16_X4+ P16_X5+ P16_X6+ P16_X7+ P16_J1+ P16_J2+ P16_J3+ P16_J4+ P16_J5+ P16_J6+ P16_J7+ P16_V1+ P16_V2+ P16_V3+ P16_V4+ P16_V5+ P16_V6+ P16_V7, "RP16")
 
-#preferencia si quieren turnos juntos
+#preferencia si quieren turnos juntos (PENDIENTE)
 
 status = model.solve()
 
