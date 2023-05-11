@@ -31,9 +31,7 @@ J = [LpVariable(name=f"J{i}", lowBound=0, cat="Integer") for i in range(1, 8)]
 V = [LpVariable(name=f"V{i}", lowBound=0, cat="Integer") for i in range(1, 8)]
 J = [LpVariable(name=f"J{i}", lowBound=0, cat="Integer") for i in range(1, 17)]
 
-#turno elegido por P[Primo]_[Dia][bloque] (pendiente simplificar)
-
-variables ={}
+#turno elegido por P[Primo]_[Dia][bloque]
 
 for i in range(1,17):
     for x in dias:
