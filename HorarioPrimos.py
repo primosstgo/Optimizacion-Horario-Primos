@@ -4,17 +4,55 @@ import openpyxl
 import re
 from Disponibilidad_primos import Horarios_primos
 
+from math import floor, ceil
+from functools import reduce
+
+def getSchedule(primos_count, days, blocks_count, primos_per_shift = 2):
+    model = LpProblem(name="Horario", sense=LpMaximize)
+
+    availability, schedule = {}, {}
+    for primo in range(primos_count):
+        for day_number, day_name in enumerate(days):
+            for block in range(blocks_count):
+                # P1L1, P1L2, ..., P16V6, P16V7
+                availability[var := f'p{primo+1}{day_name}{block}'] = Horarios_primos[primo][1][day_number][block]
+                # P1_L1, P1_L2, ..., P16_V6, P16_V7
+                schedule[var] = LpVariable(name=var, cat="Binary")
+    
+    shifts_primos = LpVariable.dicts(
+        'primo',
+        range(1, primos_count+1),
+        lowBound=floor(shifts_per_primo := blocks_count*len(days)*primos_per_shift/primos_count),
+        upBound=ceil(shifts_per_primo),
+        cat='Integer',
+    )
+    
+    satisfaction = {}
+    for day in days:
+        satisfaction[day] = [LpVariable(name=f'{day}{i}', lowBound=0, cat="Integer") for i in range(blocks_count)]
+
+    model += sum(reduce(lambda a, b: a + b, satisfaction.values()))
+    for day in days:
+        for block in range(blocks_count):
+            for primo in range(primos_count):
+                print(f'{day=}, {block=}, primo={primo+1}')
+            print('------')
+
+
+getSchedule(16, 'lmxjv', 7)
+exit()
+
+
 #defincion del modelo
 model = LpProblem(name="Horario", sense=LpMaximize)
 
 #definicion de variables
 dias = ["L","M","X","J","V"]
-Primos = ["P1","P2","P3","P4","P5","P6","P7","P8","P9","P10","P11","P12","P13","P14","P15","P16"]
 
-for x in range(0,16):
-    for y in range(0,5):
+for x in range(16):
+    for y in range(5):
         for z in range(1,8):
-            nombre_variable = f"{Primos[x]}{dias[y]}{z}"
+            nombre_variable = f"P{x+1}{dias[y]}{z}"
             globals()[nombre_variable] = Horarios_primos[x][1][y][z-1]
 
 # Cantidad de horas por Primo
